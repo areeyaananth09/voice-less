@@ -4,24 +4,48 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-export default function Home() {
+export default function SignUp() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
   const [error, setError] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Basic validation
-    if (!email || !password) {
+    setError("");
+
+    // Validation
+    if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
       setError("Please fill in all fields");
       return;
     }
-    // TODO: Implement actual login logic
-    console.log("Login attempt:", { email, password });
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      return;
+    }
+
+    // TODO: Implement actual signup logic
+    console.log("Signup attempt:", formData);
     setError("");
     
-    // Navigate to role selection page after successful login
+    // Navigate to role selection page after successful signup
     router.push("/role-selection");
   };
 
@@ -35,12 +59,32 @@ export default function Home() {
               Voiceless
             </h1>
             <p className="text-gray-600 dark:text-gray-300 text-sm">
-              Bridging the gap between hearing and non-hearing worlds
+              Create your account to get started
             </p>
           </div>
 
-          {/* Login Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Signup Form */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >
+                Full Name
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Enter your full name"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+                required
+                aria-label="Full name"
+              />
+            </div>
+
             <div>
               <label
                 htmlFor="email"
@@ -50,9 +94,10 @@ export default function Home() {
               </label>
               <input
                 id="email"
+                name="email"
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formData.email}
+                onChange={handleChange}
                 placeholder="Enter your email"
                 className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                 required
@@ -69,13 +114,34 @@ export default function Home() {
               </label>
               <input
                 id="password"
+                name="password"
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Create a password (min. 6 characters)"
                 className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                 required
                 aria-label="Password"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >
+                Confirm Password
+              </label>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Confirm your password"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+                required
+                aria-label="Confirm password"
               />
             </div>
 
@@ -89,19 +155,19 @@ export default function Home() {
               type="submit"
               className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
-              Sign In
+              Create Account
             </button>
           </form>
 
-          {/* Sign Up Link */}
+          {/* Login Link */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              New to Voiceless?{" "}
+              Already have an account?{" "}
               <Link
-                href="/signup"
+                href="/"
                 className="text-indigo-600 dark:text-indigo-400 font-semibold hover:text-indigo-700 dark:hover:text-indigo-300 underline"
               >
-                Create an account
+                Sign in
               </Link>
             </p>
           </div>
@@ -109,9 +175,8 @@ export default function Home() {
           {/* App Description */}
           <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
             <p className="text-xs text-gray-500 dark:text-gray-400 text-center leading-relaxed">
-              Voiceless enables effective communication through speech-to-text
-              and text-to-sign language conversion, improving quality of life in
-              social, professional, and educational environments.
+              Join Voiceless to access speech-to-text and text-to-sign language
+              features that enhance communication in your daily life.
             </p>
           </div>
         </div>
@@ -119,3 +184,4 @@ export default function Home() {
     </div>
   );
 }
+
