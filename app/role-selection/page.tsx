@@ -9,7 +9,7 @@ export default function RoleSelection() {
 
   const handleRoleSelect = (role: "deaf-mute" | "hearing") => {
     setSelectedRole(role);
-    
+
     // Save role to localStorage
     if (typeof window !== "undefined") {
       localStorage.setItem("userRole", role);
@@ -25,36 +25,60 @@ export default function RoleSelection() {
     }, 300); // Small delay for visual feedback
   };
 
+  const handleBack = () => {
+    router.back();
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4 py-8">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-950 dark:via-purple-950 dark:to-gray-900 px-4 py-8">
+      {/* Back Button - Top Left */}
+      <button
+        onClick={handleBack}
+        className="absolute top-4 left-4 p-2 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors backdrop-blur-sm"
+        aria-label="Go back"
+      >
+        <svg
+          className="w-5 h-5 text-gray-600 dark:text-gray-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </button>
+
       <main className="w-full max-w-2xl">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+        {/* Header - Compact */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
             Who are you?
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
+          <p className="text-base text-gray-600 dark:text-gray-300">
             Select your role to continue
           </p>
         </div>
 
-        {/* Role Selection Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        {/* Role Selection Cards - Compact */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {/* Deaf / Mute User Card */}
           <button
             onClick={() => handleRoleSelect("deaf-mute")}
-            className={`group relative bg-white dark:bg-gray-800 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 md:p-12 border-4 ${
-              selectedRole === "deaf-mute"
+            className={`group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 md:p-8 border-2 ${selectedRole === "deaf-mute"
                 ? "border-indigo-600 dark:border-indigo-400 scale-105"
                 : "border-transparent hover:border-indigo-300 dark:hover:border-indigo-700"
-            } focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-offset-4`}
+              } focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-offset-2`}
             aria-label="Select Deaf or Mute User role"
           >
             {/* Icon */}
-            <div className="flex justify-center mb-6">
-              <div className="w-24 h-24 md:w-32 md:h-32 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <div className="flex justify-center mb-4">
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                 <svg
-                  className="w-16 h-16 md:w-20 md:h-20 text-indigo-600 dark:text-indigo-400"
+                  className="w-12 h-12 md:w-14 md:h-14 text-indigo-600 dark:text-indigo-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -78,15 +102,15 @@ export default function RoleSelection() {
             </div>
 
             {/* Label */}
-            <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 dark:text-white mb-3">
+            <h2 className="text-xl md:text-2xl font-bold text-center text-gray-900 dark:text-white mb-2">
               Deaf / Mute User
             </h2>
-            <p className="text-center text-gray-600 dark:text-gray-400 text-sm md:text-base">
+            <p className="text-center text-gray-600 dark:text-gray-400 text-sm">
               Text and Sign Language interface
             </p>
 
             {/* Accessibility Indicator */}
-            <div className="mt-6 flex justify-center">
+            <div className="mt-4 flex justify-center">
               <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                 <svg
                   className="w-4 h-4"
@@ -107,18 +131,17 @@ export default function RoleSelection() {
           {/* Hearing User Card */}
           <button
             onClick={() => handleRoleSelect("hearing")}
-            className={`group relative bg-white dark:bg-gray-800 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 md:p-12 border-4 ${
-              selectedRole === "hearing"
+            className={`group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 md:p-8 border-2 ${selectedRole === "hearing"
                 ? "border-purple-600 dark:border-purple-400 scale-105"
                 : "border-transparent hover:border-purple-300 dark:hover:border-purple-700"
-            } focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-offset-4`}
+              } focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-offset-2`}
             aria-label="Select Hearing User role"
           >
             {/* Icon */}
-            <div className="flex justify-center mb-6">
-              <div className="w-24 h-24 md:w-32 md:h-32 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <div className="flex justify-center mb-4">
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                 <svg
-                  className="w-16 h-16 md:w-20 md:h-20 text-purple-600 dark:text-purple-400"
+                  className="w-12 h-12 md:w-14 md:h-14 text-purple-600 dark:text-purple-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -135,15 +158,15 @@ export default function RoleSelection() {
             </div>
 
             {/* Label */}
-            <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 dark:text-white mb-3">
+            <h2 className="text-xl md:text-2xl font-bold text-center text-gray-900 dark:text-white mb-2">
               Hearing User
             </h2>
-            <p className="text-center text-gray-600 dark:text-gray-400 text-sm md:text-base">
+            <p className="text-center text-gray-600 dark:text-gray-400 text-sm">
               Speech-to-Text interface
             </p>
 
             {/* Microphone Indicator */}
-            <div className="mt-6 flex justify-center">
+            <div className="mt-4 flex justify-center">
               <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                 <svg
                   className="w-4 h-4"
@@ -164,7 +187,7 @@ export default function RoleSelection() {
         </div>
 
         {/* Helper Text */}
-        <div className="mt-8 text-center">
+        <div className="mt-6 text-center">
           <p className="text-sm text-gray-500 dark:text-gray-400">
             Your selection will customize your experience
           </p>
@@ -173,4 +196,3 @@ export default function RoleSelection() {
     </div>
   );
 }
-
