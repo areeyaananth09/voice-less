@@ -306,55 +306,61 @@ export default function ConversationPage() {
                             </div>
                         </div>
 
-                        {/* Microphone Button */}
-                        <div className="flex justify-center mb-4">
-                            <button
-                                onClick={handleToggleRecording}
-                                disabled={!isSupported}
-                                className={`group relative rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 p-3 focus:outline-none focus:ring-4 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed ${isRecording
-                                        ? "bg-gradient-to-br from-red-500 to-rose-600 focus:ring-red-400 animate-pulse"
-                                        : "bg-gradient-to-br from-purple-600 to-fuchsia-600 hover:from-purple-700 hover:to-fuchsia-700 focus:ring-purple-400"
-                                    }`}
-                                aria-label={isRecording ? "Stop recording" : "Start recording"}
-                            >
-                                <div className="relative">
-                                    {isRecording && (
-                                        <>
-                                            <div className="absolute inset-0 rounded-full bg-white/30 animate-ping"></div>
-                                            <div className="absolute inset-0 rounded-full bg-white/20 animate-pulse"></div>
-                                        </>
-                                    )}
-
-                                    <div className="relative w-16 h-16 flex items-center justify-center">
-                                        <svg className={`w-10 h-10 text-white transition-transform ${isRecording ? "scale-110" : "group-hover:scale-110"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            {isRecording ? (
-                                                <rect x="6" y="6" width="12" height="12" rx="2" strokeWidth={2.5} />
-                                            ) : (
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                                            )}
-                                        </svg>
-                                    </div>
-                                </div>
-                            </button>
+                        {/* Instructions */}
+                        <div className="mb-3 p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
+                            <p className="text-xs text-purple-800 dark:text-purple-300 text-center">
+                                <span className="font-semibold">💡 Tip:</span> Click the microphone, speak clearly, then click again to stop. Your message will be added automatically.
+                            </p>
                         </div>
 
-                        <div className="text-center mb-4">
-                            <span className="text-sm font-bold text-gray-800 dark:text-white">
-                                {isRecording ? "Listening..." : "Tap to Speak"}
-                            </span>
-                        </div>
 
-                        {/* Live Transcription */}
-                        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-lg p-4 border border-purple-200 dark:border-purple-800 flex-grow">
+
+                        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-lg p-4 border border-purple-200 dark:border-purple-800 flex-grow flex flex-col">
                             <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
                                 <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                                 Live Speech-to-Text
+                                {isRecording && <span className="ml-auto text-xs text-purple-600 dark:text-purple-400 animate-pulse">● Recording</span>}
                             </h3>
-                            <div className="bg-purple-50 dark:bg-purple-900/30 rounded-lg p-4 min-h-[140px] border border-purple-100 dark:border-purple-900">
-                                <p className={`text-base leading-relaxed ${!hearingText ? "text-gray-400 dark:text-gray-600 text-center" : "text-gray-900 dark:text-white font-medium"}`}>
-                                    {hearingText || "Your speech will appear here..."}
+
+                            {/* Microphone Button (Moved Inside) */}
+                            <div className="flex flex-col items-center justify-center py-4">
+                                <button
+                                    onClick={handleToggleRecording}
+                                    disabled={!isSupported}
+                                    className={`group relative rounded-full shadow-md hover:shadow-lg transition-all duration-300 p-2 focus:outline-none focus:ring-4 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed mb-2 ${isRecording
+                                        ? "bg-gradient-to-br from-red-500 to-rose-600 focus:ring-red-400 animate-pulse"
+                                        : "bg-gradient-to-br from-purple-600 to-fuchsia-600 hover:from-purple-700 hover:to-fuchsia-700 focus:ring-purple-400"
+                                        }`}
+                                    aria-label={isRecording ? "Stop recording" : "Start recording"}
+                                    title={isRecording ? "Click to stop recording" : "Click to start speaking"}
+                                >
+                                    <div className="relative">
+                                        {isRecording && (
+                                            <>
+                                                <div className="absolute inset-0 rounded-full bg-white/30 animate-ping"></div>
+                                                <div className="absolute inset-0 rounded-full bg-white/20 animate-pulse"></div>
+                                            </>
+                                        )}
+                                        <div className="relative w-12 h-12 flex items-center justify-center">
+                                            <svg className={`w-6 h-6 text-white transition-transform ${isRecording ? "scale-110" : "group-hover:scale-110"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                {isRecording ? (
+                                                    <rect x="6" y="6" width="12" height="12" rx="2" strokeWidth={2.5} />
+                                                ) : (
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                                                )}
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </button>
+                                <span className="text-xs font-bold text-gray-700 dark:text-gray-300">
+                                    {isRecording ? "🔴 Listening..." : "Tap to Speak"}
+                                </span>
+                            </div>
+                            <div className="bg-purple-50 dark:bg-purple-900/30 rounded-lg p-4 min-h-[140px] border border-purple-100 dark:border-purple-900 flex-grow">
+                                <p className={`text-base leading-relaxed ${!hearingText ? "text-gray-400 dark:text-gray-600 text-center italic" : "text-gray-900 dark:text-white font-medium"}`}>
+                                    {hearingText || "Click the microphone above and start speaking. Your words will appear here in real-time..."}
                                 </p>
                             </div>
                         </div>
@@ -377,19 +383,33 @@ export default function ConversationPage() {
                             </div>
                         </div>
 
+                        {/* Instructions */}
+                        <div className="mb-3 p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-200 dark:border-indigo-800">
+                            <p className="text-xs text-indigo-800 dark:text-indigo-300 text-center">
+                                <span className="font-semibold">💡 Tip:</span> Type your message below. You can preview it in sign language or send it directly to the conversation.
+                            </p>
+                        </div>
+
                         {/* Text Input */}
-                        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-lg p-4 border border-indigo-200 dark:border-indigo-800 mb-4">
-                            <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
-                                <svg className="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                                Type Your Message
-                            </h3>
+                        <div className={`bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-lg p-4 border border-indigo-200 dark:border-indigo-800 flex flex-col ${showSignLanguage ? 'mb-4' : 'flex-grow h-full'}`}>
+                            <div className="flex items-center justify-between mb-2">
+                                <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                                    <svg className="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                    Type Your Message
+                                </h3>
+                                {deafMuteText && (
+                                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                                        {deafMuteText.length} characters
+                                    </span>
+                                )}
+                            </div>
                             <textarea
                                 value={deafMuteText}
                                 onChange={(e) => setDeafMuteText(e.target.value)}
-                                placeholder="Type your message here..."
-                                className="w-full px-3 py-2.5 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none resize-none min-h-[100px]"
+                                placeholder="Start typing your message here... (e.g., Hello, how are you today?)"
+                                className="w-full px-3 py-2.5 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none resize-none min-h-[100px] flex-grow"
                                 rows={4}
                             />
 
@@ -398,32 +418,54 @@ export default function ConversationPage() {
                                     onClick={handleConvertToSign}
                                     disabled={!deafMuteText.trim()}
                                     className="flex-1 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white rounded-lg py-2 px-3 text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-2"
+                                    title={!deafMuteText.trim() ? "Type a message first to preview in sign language" : "Preview your message in sign language"}
                                 >
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
                                     </svg>
-                                    Convert to Sign
+                                    {!deafMuteText.trim() ? "Convert to Sign (Type first)" : "Convert to Sign"}
                                 </button>
                                 <button
                                     onClick={handleSendDeafMuteMessage}
                                     disabled={!deafMuteText.trim()}
-                                    className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg text-sm font-semibold transition-all duration-200"
+                                    className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg text-sm font-semibold transition-all duration-200 flex items-center gap-2"
+                                    title={!deafMuteText.trim() ? "Type a message first to send" : "Send message to conversation"}
                                 >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                                    </svg>
                                     Send
                                 </button>
                             </div>
+
+                            {!deafMuteText.trim() && (
+                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center italic">
+                                    ✍️ Start typing to enable the buttons above
+                                </p>
+                            )}
                         </div>
 
                         {/* Sign Language Display */}
                         {showSignLanguage && (
-                            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-lg p-4 border border-indigo-200 dark:border-indigo-800 animate-fadeIn flex-grow">
-                                <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
-                                    <svg className="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                    </svg>
-                                    Sign Language Preview
-                                </h3>
-                                <div className="bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/30 dark:to-blue-900/30 rounded-lg p-6 min-h-[140px] flex items-center justify-center border border-indigo-100 dark:border-indigo-900">
+                            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-lg p-4 border border-indigo-200 dark:border-indigo-800 animate-fadeIn flex-grow flex flex-col">
+                                <div className="flex items-center justify-between mb-2">
+                                    <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                                        <svg className="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                        </svg>
+                                        Sign Language Preview
+                                    </h3>
+                                    <button
+                                        onClick={() => setShowSignLanguage(false)}
+                                        className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors p-1"
+                                        aria-label="Close preview"
+                                    >
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div className="bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/30 dark:to-blue-900/30 rounded-lg p-6 min-h-[140px] flex items-center justify-center border border-indigo-100 dark:border-indigo-900 flex-grow relative">
                                     {isPlaying && currentWord ? (
                                         <div className="text-center">
                                             <div className="w-16 h-16 mx-auto bg-gradient-to-br from-indigo-400 to-blue-500 rounded-full flex items-center justify-center shadow-xl animate-bounce mb-2">
@@ -434,7 +476,23 @@ export default function ConversationPage() {
                                             <p className="text-2xl font-bold text-indigo-700 dark:text-indigo-300">{currentWord}</p>
                                         </div>
                                     ) : (
-                                        <p className="text-gray-600 dark:text-gray-400 text-sm">Click "Convert to Sign" to see animation</p>
+                                        <div className="flex flex-col items-center gap-3">
+                                            <div className="w-16 h-16 mx-auto bg-gray-200 dark:bg-gray-700/50 rounded-full flex items-center justify-center mb-2">
+                                                <svg className="w-8 h-8 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                                </svg>
+                                            </div>
+                                            <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">Message playback complete</p>
+                                            <button
+                                                onClick={handleConvertToSign}
+                                                className="flex items-center gap-2 px-4 py-2 bg-indigo-100 dark:bg-indigo-900/50 hover:bg-indigo-200 dark:hover:bg-indigo-900 text-indigo-700 dark:text-indigo-300 rounded-lg transition-colors text-sm font-semibold"
+                                            >
+                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                                </svg>
+                                                Replay
+                                            </button>
+                                        </div>
                                     )}
                                 </div>
                             </div>
@@ -460,8 +518,8 @@ export default function ConversationPage() {
                                 >
                                     <div
                                         className={`max-w-[75%] rounded-xl p-3 ${msg.type === "hearing"
-                                                ? "bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-800"
-                                                : "bg-indigo-100 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800"
+                                            ? "bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-800"
+                                            : "bg-indigo-100 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800"
                                             }`}
                                     >
                                         <div className="flex items-center gap-2 mb-1">
