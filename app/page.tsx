@@ -38,7 +38,7 @@ export default function Home() {
     }
     setIsLoading(true);
     try {
-      await authClient.emailOTP.sendVerificationOtp({
+      await authClient.emailOtp.sendVerificationOtp({
         email,
         type: "sign-in",
       });
@@ -62,8 +62,8 @@ export default function Home() {
       await authClient.signIn.emailOtp({
         email,
         otp,
-        callbackURL: "/role-selection",
       });
+      router.push("/role-selection");
     } catch (err) {
       setError("Invalid OTP. Please try again.");
     } finally {
@@ -88,7 +88,7 @@ export default function Home() {
               Voiceless
             </h1>
             <p className="text-gray-600 dark:text-gray-300 text-sm">
-              Bridging the gap between hearing and non-hearing worlds
+              BREAKING BARRIERS IN COMMUNICATION FOR THE DIFFERENTLY -ABLED
             </p>
           </div>
 
@@ -115,14 +115,26 @@ export default function Home() {
 
 
 
-            {!isOtpLogin && (
+            {!isOtpLogin ? (
               <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                >
-                  Password
-                </label>
+                <div className="flex justify-between mb-2">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                  >
+                    Password
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsOtpLogin(true);
+                      setError("");
+                    }}
+                    className="text-sm font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                  >
+                    Login with Code
+                  </button>
+                </div>
                 <input
                   id="password"
                   type="password"
@@ -134,6 +146,31 @@ export default function Home() {
                   aria-label="Password"
                 />
               </div>
+            ) : (
+              <div className="flex justify-end mb-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsOtpLogin(false);
+                    setOtpSent(false);
+                    setError("");
+                  }}
+                  className="text-sm font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                >
+                  Login with Password
+                </button>
+              </div>
+            )}
+
+            {isOtpLogin && !otpSent && (
+              <button
+                type="button"
+                onClick={handleSendOtp}
+                disabled={isLoading}
+                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isLoading ? "Sending OTP..." : "Send OTP Code"}
+              </button>
             )}
 
             {isOtpLogin && otpSent && (
@@ -154,6 +191,16 @@ export default function Home() {
                   required
                   aria-label="OTP"
                 />
+                <div className="flex justify-end mt-2">
+                  <button
+                    type="button"
+                    onClick={handleSendOtp}
+                    disabled={isLoading}
+                    className="text-xs text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium"
+                  >
+                    {isLoading ? "Sending..." : "Resend OTP"}
+                  </button>
+                </div>
               </div>
             )}
 
@@ -163,12 +210,16 @@ export default function Home() {
               </div>
             )}
 
-            <button
-              type="submit"
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-              Sign In
-            </button>
+            {(!isOtpLogin || otpSent) && (
+              <button
+                type={isOtpLogin ? "button" : "submit"}
+                onClick={isOtpLogin ? handleOtpLogin : undefined}
+                disabled={isLoading}
+                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isLoading ? "Signing in..." : (isOtpLogin ? "Verify & Sign In" : "Sign In")}
+              </button>
+            )}
 
             <div className="relative my-4">
               <div className="absolute inset-0 flex items-center">
