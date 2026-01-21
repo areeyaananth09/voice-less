@@ -9,7 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@types/nodemailer": "^7.0.5",
+    "@types/pg": "^8.16.0",
+    "better-auth": "^1.4.17",
     "next": "16.1.1",
+    "nodemailer": "^7.0.12",
+    "pg": "^8.17.2",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
