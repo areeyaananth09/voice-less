@@ -29,7 +29,7 @@ export default function Home() {
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-200">
           <Link href="/about" className="hover:text-white transition-colors">About</Link>
           <Link href="#" className="hover:text-white transition-colors">How it works</Link>
-          <Link href="#" className="hover:text-white transition-colors">Features</Link>
+          <Link href="/features" className="hover:text-white transition-colors">Features</Link>
           <Link href="#" className="hover:text-white transition-colors">Blog</Link>
         </div>
       </nav>
