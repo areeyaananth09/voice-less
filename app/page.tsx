@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[url('/background-test.jpg')] bg-cover bg-center bg-no-repeat bg-fixed text-white font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-[url('/background-test.jpg')] bg-cover bg-center bg-no-repeat bg-fixed text-white overflow-x-hidden">
       <div className="absolute inset-0 bg-black/30 pointer-events-none"></div>
 
       {/* Navbar */}
@@ -22,7 +22,7 @@ export default function Home() {
           </div>
           <div className="flex flex-col">
             <span className="text-2xl font-bold tracking-tight">VOICELESS</span>
-            <span className="text-[10px] uppercase tracking-wider text-gray-300">By FSD Team</span>
+            <span className="text-[10px] uppercase tracking-wider text-gray-300">By Tech Gen Innovations</span>
           </div>
         </div>
 
@@ -39,7 +39,7 @@ export default function Home() {
         {/* Hero Section */}
         <div className="grid md:grid-cols-2 gap-12 items-center min-h-[60vh]">
           <div className="space-y-6">
-            <h1 className="text-5xl md:text-7xl font-bold leading-tight drop-shadow-lg">
+            <h1 className="text-4xl md:text-5xl font-bold leading-tight drop-shadow-lg">
               VOICELESS: <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-pink-300">Connect.</span> <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-pink-300">Communicate.</span> <br />
@@ -112,7 +112,7 @@ export default function Home() {
 
         {/* Footer */}
         <div className="mt-20 pt-8 border-t border-white/10 text-center text-xs text-gray-400">
-          <p>VOICELESS - A project by FSD College of Technology.</p>
+          <p>VOICELESS - A project by Tech Gen Innovations.</p>
         </div>
       </main>
     </div>
