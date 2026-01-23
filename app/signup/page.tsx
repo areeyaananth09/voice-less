@@ -62,15 +62,17 @@ export default function SignUp() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-950 dark:via-purple-950 dark:to-gray-900 px-4 py-8">
+    <div className="min-h-screen transition-colors duration-300 bg-[url('/light-bg.png')] dark:bg-[url('/background-test.jpg')] bg-cover bg-center bg-no-repeat bg-fixed flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-white/30 dark:bg-black/40 pointer-events-none"></div>
+
       {/* Back Button - Top Left */}
       <button
         onClick={handleBack}
-        className="absolute top-4 left-4 p-2 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors backdrop-blur-sm"
+        className="absolute top-4 left-4 p-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
         aria-label="Go back"
       >
         <svg
-          className="w-5 h-5 text-gray-600 dark:text-gray-400"
+          className="w-6 h-6"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -79,29 +81,30 @@ export default function SignUp() {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M15 19l-7-7 7-7"
+            d="M10 19l-7-7 7-7m8 14l-7-7 7-7"
           />
         </svg>
       </button>
 
-      <main className="w-full max-w-md px-6 py-8">
-        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-2xl shadow-xl p-6">
+      <main className="w-full max-w-md px-6 py-8 relative z-10">
+        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-8">
+
           {/* Logo and Title */}
-          <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-1">
-              Voiceless
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">
+              Create Account
             </h1>
-            <p className="text-gray-600 dark:text-gray-300 text-sm">
-              Create your account to get started
+            <p className="text-gray-300 text-sm">
+              Join Voiceless and start communicating effortlessly.
             </p>
           </div>
 
           {/* Signup Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label
                 htmlFor="name"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5"
+                className="block text-sm font-medium text-gray-200 mb-1.5"
               >
                 Full Name
               </label>
@@ -112,7 +115,7 @@ export default function SignUp() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Enter your full name"
-                className="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 text-sm"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-white placeholder-gray-400 transition-all text-sm hover:bg-white/10"
                 required
                 aria-label="Full name"
               />
@@ -121,7 +124,7 @@ export default function SignUp() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5"
+                className="block text-sm font-medium text-gray-200 mb-1.5"
               >
                 Email Address
               </label>
@@ -131,8 +134,8 @@ export default function SignUp() {
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="Enter your email"
-                className="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 text-sm"
+                placeholder="name@example.com"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-white placeholder-gray-400 transition-all text-sm hover:bg-white/10"
                 required
                 aria-label="Email address"
               />
@@ -141,7 +144,7 @@ export default function SignUp() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5"
+                className="block text-sm font-medium text-gray-200 mb-1.5"
               >
                 Password
               </label>
@@ -151,8 +154,8 @@ export default function SignUp() {
                 type="password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="Create a password (min. 6 characters)"
-                className="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 text-sm"
+                placeholder="Create a password (min. 6 chars)"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-white placeholder-gray-400 transition-all text-sm hover:bg-white/10"
                 required
                 aria-label="Password"
               />
@@ -161,7 +164,7 @@ export default function SignUp() {
             <div>
               <label
                 htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5"
+                className="block text-sm font-medium text-gray-200 mb-1.5"
               >
                 Confirm Password
               </label>
@@ -172,40 +175,35 @@ export default function SignUp() {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="Confirm your password"
-                className="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 text-sm"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-white placeholder-gray-400 transition-all text-sm hover:bg-white/10"
                 required
                 aria-label="Confirm password"
               />
             </div>
 
             {error && (
-              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-3 py-2.5 rounded-lg text-sm">
+              <div className="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-xl text-sm backdrop-blur-sm">
                 {error}
               </div>
             )}
 
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-md hover:shadow-lg"
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold py-3.5 px-4 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-transparent shadow-lg hover:shadow-purple-500/25 mt-2"
             >
               Create Account
             </button>
 
-            <div className="relative my-4">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300 dark:border-gray-700"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white dark:bg-gray-800 text-gray-500">
-                  Or continue with
-                </span>
-              </div>
+            <div className="flex items-center gap-4 my-6">
+              <div className="h-px bg-white/10 flex-1"></div>
+              <span className="text-sm text-gray-400">Or continue with</span>
+              <div className="h-px bg-white/10 flex-1"></div>
             </div>
 
             <button
               type="button"
               onClick={handleGoogleSignIn}
-              className="w-full flex justify-center items-center gap-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 font-semibold py-2.5 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-sm"
+              className="w-full flex justify-center items-center gap-3 bg-white text-gray-900 hover:bg-gray-100 font-semibold py-3.5 px-4 rounded-xl transition-all duration-200 shadow-sm"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path
@@ -230,23 +228,15 @@ export default function SignUp() {
           </form>
 
           {/* Login Link */}
-          <div className="mt-5 text-center">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+          <div className="mt-8 text-center bg-white/5 hover:bg-white/10 transition-colors rounded-xl py-4 border border-white/5">
+            <p className="text-sm text-gray-300">
               Already have an account?{" "}
               <Link
                 href="/"
-                className="text-indigo-600 dark:text-indigo-400 font-semibold hover:text-indigo-700 dark:hover:text-indigo-300 underline"
+                className="text-white font-bold hover:text-purple-300 underline-offset-4 hover:underline transition-colors"
               >
                 Sign in
               </Link>
-            </p>
-          </div>
-
-          {/* App Description */}
-          <div className="mt-6 pt-5 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-xs text-gray-500 dark:text-gray-400 text-center leading-relaxed">
-              Join Voiceless to access speech-to-text and text-to-sign language
-              features that enhance communication in your daily life.
             </p>
           </div>
         </div>
