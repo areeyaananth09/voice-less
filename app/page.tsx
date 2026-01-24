@@ -30,9 +30,9 @@ export default function Home() {
                 <div className="flex items-center gap-6">
                     <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600 dark:text-gray-200">
                         <Link href="/about" className="hover:text-black dark:hover:text-white transition-colors">About</Link>
-                        <Link href="#" className="hover:text-black dark:hover:text-white transition-colors">How it works</Link>
+                        <Link href="#how-it-works" className="hover:text-black dark:hover:text-white transition-colors">How it works</Link>
                         <Link href="/features" className="hover:text-black dark:hover:text-white transition-colors">Features</Link>
-                        <Link href="#" className="hover:text-black dark:hover:text-white transition-colors">Blog</Link>
+                        <Link href="/blog" className="hover:text-black dark:hover:text-white transition-colors">Blog</Link>
                     </div>
                     <ThemeToggle />
                 </div>
@@ -77,7 +77,7 @@ export default function Home() {
                 </div>
 
                 {/* Feature Cards */}
-                <div className="grid md:grid-cols-3 gap-8 mt-20">
+                <div id="how-it-works" className="grid md:grid-cols-3 gap-8 mt-20">
                     {/* Card 1 */}
                     <div className="bg-white dark:bg-white/10 backdrop-blur-md border border-gray-200 dark:border-white/20 p-8 rounded-3xl shadow-lg dark:shadow-none hover:bg-gray-50 dark:hover:bg-white/15 transition-all duration-300 group">
                         <div className="w-14 h-14 bg-blue-100 dark:bg-blue-500/20 rounded-2xl flex items-center justify-center mb-6 text-blue-600 dark:text-blue-300 group-hover:scale-110 transition-transform">

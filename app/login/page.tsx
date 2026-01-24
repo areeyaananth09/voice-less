@@ -90,23 +90,23 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-[url('/background-test.jpg')] bg-cover bg-center bg-no-repeat bg-fixed relative">
-            <div className="absolute inset-0 bg-black/20 pointer-events-none"></div>
+        <div className="flex min-h-screen items-center justify-center transition-colors duration-300 bg-[url('/light-bg.png')] dark:bg-[url('/background-test.jpg')] bg-cover bg-center bg-no-repeat bg-fixed relative">
+            <div className="absolute inset-0 bg-white/30 dark:bg-black/20 pointer-events-none"></div>
 
             <main className="w-full max-w-md px-6 py-8 relative z-10">
-                <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-8">
+                <div className="bg-white/60 dark:bg-white/10 backdrop-blur-xl border border-white/40 dark:border-white/20 rounded-2xl shadow-2xl p-8">
                     <div className="text-center mb-8">
-                        <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-200 to-pink-200 mb-2 drop-shadow-sm">
+                        <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-200 dark:to-pink-200 mb-2 drop-shadow-sm">
                             Voiceless
                         </h1>
-                        <p className="text-gray-200 text-sm tracking-wide">
+                        <p className="text-gray-700 dark:text-gray-200 text-sm tracking-wide">
                             Sign in to continue
                         </p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-200 mb-2">
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                                 Email Address
                             </label>
                             <input
@@ -115,7 +115,7 @@ export default function LoginPage() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Enter your email"
-                                className="w-full px-4 py-3 border border-white/10 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent outline-none bg-black/40 text-white placeholder-gray-400 backdrop-blur-sm transition-all"
+                                className="w-full px-4 py-3 border border-gray-200 dark:border-white/10 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent outline-none bg-white/50 dark:bg-black/40 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 backdrop-blur-sm transition-all"
                                 required
                             />
                         </div>
@@ -123,7 +123,7 @@ export default function LoginPage() {
                         {!isOtpLogin ? (
                             <div>
                                 <div className="flex justify-between mb-2">
-                                    <label htmlFor="password" className="block text-sm font-medium text-gray-200">
+                                    <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
                                         Password
                                     </label>
                                     <button
@@ -132,7 +132,7 @@ export default function LoginPage() {
                                             setIsOtpLogin(true);
                                             setError("");
                                         }}
-                                        className="text-sm font-medium text-purple-300 hover:text-purple-200"
+                                        className="text-sm font-medium text-purple-700 dark:text-purple-300 hover:text-purple-900 dark:hover:text-purple-200"
                                     >
                                         Login with Code
                                     </button>
@@ -143,7 +143,7 @@ export default function LoginPage() {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     placeholder="Enter your password"
-                                    className="w-full px-4 py-3 border border-white/10 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent outline-none bg-black/40 text-white placeholder-gray-400 backdrop-blur-sm transition-all"
+                                    className="w-full px-4 py-3 border border-gray-200 dark:border-white/10 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent outline-none bg-white/50 dark:bg-black/40 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 backdrop-blur-sm transition-all"
                                     required
                                 />
                             </div>
@@ -176,7 +176,7 @@ export default function LoginPage() {
 
                         {isOtpLogin && otpSent && (
                             <div>
-                                <label htmlFor="otp" className="block text-sm font-medium text-gray-200 mb-2">
+                                <label htmlFor="otp" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                                     Enter OTP
                                 </label>
                                 <input
@@ -185,7 +185,7 @@ export default function LoginPage() {
                                     value={otp}
                                     onChange={(e) => setOtp(e.target.value)}
                                     placeholder="Enter 6-digit OTP"
-                                    className="w-full px-4 py-3 border border-white/10 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent outline-none bg-black/40 text-white placeholder-gray-400 backdrop-blur-sm tracking-widest text-center text-lg"
+                                    className="w-full px-4 py-3 border border-gray-200 dark:border-white/10 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent outline-none bg-white/50 dark:bg-black/40 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 backdrop-blur-sm tracking-widest text-center text-lg"
                                     required
                                 />
                                 <div className="flex justify-end mt-2">
@@ -220,7 +220,7 @@ export default function LoginPage() {
 
                         <div className="relative my-4">
                             <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-white/10"></div>
+                                <div className="w-full border-t border-gray-300 dark:border-white/10"></div>
                             </div>
                             <div className="relative flex justify-center text-sm">
                                 <span className="px-2 bg-transparent text-gray-400">
@@ -257,16 +257,21 @@ export default function LoginPage() {
                     </form>
 
                     <div className="mt-6 text-center">
-                        <p className="text-sm text-gray-300">
+                        <p className="text-sm text-gray-600 dark:text-gray-300">
                             New to Voiceless?{" "}
                             <Link
                                 href="/signup"
-                                className="text-purple-300 font-semibold hover:text-purple-200 underline"
+                                className="text-purple-700 dark:text-purple-300 font-semibold hover:text-purple-900 dark:hover:text-purple-200 underline"
                             >
                                 Create an account
                             </Link>
                         </p>
                     </div>
+                </div>
+
+                {/* Footer */}
+                <div className="mt-6 pt-4 border-t border-gray-200 dark:border-white/10 text-center text-xs text-gray-500 dark:text-gray-400">
+                    <p>VOICELESS - A project by Tech Gen Innovations.</p>
                 </div>
             </main>
         </div>

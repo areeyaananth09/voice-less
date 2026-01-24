@@ -68,7 +68,7 @@ export default function SignUp() {
       {/* Back Button - Top Left */}
       <button
         onClick={handleBack}
-        className="absolute top-4 left-4 p-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+        className="absolute top-4 left-4 p-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-black/10 dark:hover:bg-white/10 rounded-lg transition-colors"
         aria-label="Go back"
       >
         <svg
@@ -87,14 +87,14 @@ export default function SignUp() {
       </button>
 
       <main className="w-full max-w-md px-6 py-8 relative z-10">
-        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-8">
+        <div className="bg-white/60 dark:bg-white/10 backdrop-blur-xl border border-white/40 dark:border-white/20 rounded-3xl shadow-2xl p-8">
 
           {/* Logo and Title */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 tracking-tight">
               Create Account
             </h1>
-            <p className="text-gray-300 text-sm">
+            <p className="text-gray-700 dark:text-gray-300 text-sm">
               Join Voiceless and start communicating effortlessly.
             </p>
           </div>
@@ -104,7 +104,7 @@ export default function SignUp() {
             <div>
               <label
                 htmlFor="name"
-                className="block text-sm font-medium text-gray-200 mb-1.5"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1.5"
               >
                 Full Name
               </label>
@@ -115,7 +115,7 @@ export default function SignUp() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Enter your full name"
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-white placeholder-gray-400 transition-all text-sm hover:bg-white/10"
+                className="w-full px-4 py-3 bg-white/50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all text-sm hover:bg-white/80 dark:hover:bg-white/10"
                 required
                 aria-label="Full name"
               />
@@ -124,7 +124,7 @@ export default function SignUp() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-200 mb-1.5"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1.5"
               >
                 Email Address
               </label>
@@ -135,7 +135,7 @@ export default function SignUp() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="name@example.com"
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-white placeholder-gray-400 transition-all text-sm hover:bg-white/10"
+                className="w-full px-4 py-3 bg-white/50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all text-sm hover:bg-white/80 dark:hover:bg-white/10"
                 required
                 aria-label="Email address"
               />
@@ -144,7 +144,7 @@ export default function SignUp() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-200 mb-1.5"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1.5"
               >
                 Password
               </label>
@@ -155,7 +155,7 @@ export default function SignUp() {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Create a password (min. 6 chars)"
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-white placeholder-gray-400 transition-all text-sm hover:bg-white/10"
+                className="w-full px-4 py-3 bg-white/50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all text-sm hover:bg-white/80 dark:hover:bg-white/10"
                 required
                 aria-label="Password"
               />
@@ -164,7 +164,7 @@ export default function SignUp() {
             <div>
               <label
                 htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-200 mb-1.5"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1.5"
               >
                 Confirm Password
               </label>
@@ -175,7 +175,7 @@ export default function SignUp() {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="Confirm your password"
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-white placeholder-gray-400 transition-all text-sm hover:bg-white/10"
+                className="w-full px-4 py-3 bg-white/50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all text-sm hover:bg-white/80 dark:hover:bg-white/10"
                 required
                 aria-label="Confirm password"
               />
@@ -195,9 +195,9 @@ export default function SignUp() {
             </button>
 
             <div className="flex items-center gap-4 my-6">
-              <div className="h-px bg-white/10 flex-1"></div>
-              <span className="text-sm text-gray-400">Or continue with</span>
-              <div className="h-px bg-white/10 flex-1"></div>
+              <div className="h-px bg-gray-300 dark:bg-white/10 flex-1"></div>
+              <span className="text-sm text-gray-500 dark:text-gray-400">Or continue with</span>
+              <div className="h-px bg-gray-300 dark:bg-white/10 flex-1"></div>
             </div>
 
             <button
@@ -228,17 +228,22 @@ export default function SignUp() {
           </form>
 
           {/* Login Link */}
-          <div className="mt-8 text-center bg-white/5 hover:bg-white/10 transition-colors rounded-xl py-4 border border-white/5">
-            <p className="text-sm text-gray-300">
+          <div className="mt-8 text-center bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 transition-colors rounded-xl py-4 border border-gray-200 dark:border-white/5">
+            <p className="text-sm text-gray-600 dark:text-gray-300">
               Already have an account?{" "}
               <Link
                 href="/"
-                className="text-white font-bold hover:text-purple-300 underline-offset-4 hover:underline transition-colors"
+                className="text-gray-900 dark:text-white font-bold hover:text-purple-600 dark:hover:text-purple-300 underline-offset-4 hover:underline transition-colors"
               >
                 Sign in
               </Link>
             </p>
           </div>
+        </div>
+
+        {/* Footer */}
+        <div className="mt-6 pt-4 border-t border-gray-200 dark:border-white/10 text-center text-xs text-gray-500 dark:text-gray-400">
+          <p>VOICELESS - A project by Tech Gen Innovations.</p>
         </div>
       </main>
     </div>

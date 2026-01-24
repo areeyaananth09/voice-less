@@ -210,7 +210,8 @@ export default function ConversationPage() {
     const selectedLang = languages.find((l) => l.code === selectedLanguage) || languages[0];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-fuchsia-50 dark:from-gray-950 dark:via-purple-950 dark:to-gray-900">
+        <div className="min-h-screen transition-colors duration-300 bg-[url('/light-bg.png')] dark:bg-[url('/background-test.jpg')] bg-cover bg-center bg-no-repeat bg-fixed relative">
+            <div className="absolute inset-0 bg-white/30 dark:bg-black/20 pointer-events-none"></div>
             {/* Header */}
             <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-md border-b border-purple-200/50 dark:border-purple-800/50 sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-4 py-3">
@@ -556,6 +557,11 @@ export default function ConversationPage() {
                         )}
                         <div ref={messagesEndRef} />
                     </div>
+                </div>
+
+                {/* Footer */}
+                <div className="mt-8 pt-6 border-t border-gray-200 dark:border-white/10 text-center text-xs text-gray-500 dark:text-gray-400">
+                    <p>VOICELESS - A project by Tech Gen Innovations.</p>
                 </div>
             </main>
 

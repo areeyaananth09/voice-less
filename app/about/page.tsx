@@ -28,8 +28,8 @@ export default function About() {
                 <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700 dark:text-gray-200">
                     <Link href="/about" className="text-purple-700 dark:text-white font-semibold">About</Link>
                     <Link href="/#how-it-works" className="hover:text-purple-700 dark:hover:text-white transition-colors">How it works</Link>
-                    <Link href="/#features" className="hover:text-purple-700 dark:hover:text-white transition-colors">Features</Link>
-                    <Link href="/#blog" className="hover:text-purple-700 dark:hover:text-white transition-colors">Blog</Link>
+                    <Link href="/features" className="hover:text-purple-700 dark:hover:text-white transition-colors">Features</Link>
+                    <Link href="/blog" className="hover:text-purple-700 dark:hover:text-white transition-colors">Blog</Link>
                 </div>
             </nav>
 
@@ -173,6 +173,10 @@ export default function About() {
 
                 </div>
 
+                {/* Footer */}
+                <div className="mt-20 pt-8 border-t border-gray-200 dark:border-white/10 text-center text-xs text-gray-500 dark:text-gray-400">
+                    <p>VOICELESS - A project by Tech Gen Innovations.</p>
+                </div>
             </main>
         </div>
     );

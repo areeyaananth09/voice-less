@@ -139,7 +139,8 @@ export default function DeafMuteDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-950 dark:via-purple-950 dark:to-gray-900">
+    <div className="min-h-screen transition-colors duration-300 bg-[url('/light-bg.png')] dark:bg-[url('/background-test.jpg')] bg-cover bg-center bg-no-repeat bg-fixed relative">
+      <div className="absolute inset-0 bg-white/30 dark:bg-black/20 pointer-events-none"></div>
       {/* Header */}
       <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-md border-b border-indigo-200/50 dark:border-indigo-800/50 sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3">
@@ -211,18 +212,51 @@ export default function DeafMuteDashboard() {
           </p>
         </div>
 
-        {/* Start Conversation Button */}
-        <div className="mb-6 flex justify-center">
-          <button
+        {/* Communication Options Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto mb-8">
+          {/* Text Chat Card */}
+          <div
             onClick={() => router.push("/dashboard/conversation")}
-            className="px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 flex items-center gap-2 font-semibold text-base"
-            aria-label="Start two-way conversation"
+            className="bg-[#1a1a2e] dark:bg-[#0f0f1a] p-6 rounded-3xl cursor-pointer hover:scale-105 transition-all duration-300 shadow-xl border border-white/5 group"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
-            Start Two-Way Conversation
-          </button>
+            <div className="flex flex-col items-center text-center space-y-3">
+              <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-indigo-500/20 transition-colors">
+                <svg className="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-white font-bold text-lg">Two-Way Chat</h3>
+                <p className="text-gray-400 text-sm">Text-to-Sign conversation</p>
+              </div>
+              <div className="pt-2 flex items-center gap-2 text-xs text-gray-500 font-medium uppercase tracking-wider">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                <span>Chat Enabled</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Video Call Card */}
+          <div
+            onClick={() => router.push("/video-call")}
+            className="bg-[#1a1a2e] dark:bg-[#0f0f1a] p-6 rounded-3xl cursor-pointer hover:scale-105 transition-all duration-300 shadow-xl border border-white/5 group"
+          >
+            <div className="flex flex-col items-center text-center space-y-3">
+              <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-pink-500/20 transition-colors">
+                <svg className="w-8 h-8 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-white font-bold text-lg">Video Call</h3>
+                <p className="text-gray-400 text-sm">Real-time Sign & Voice</p>
+              </div>
+              <div className="pt-2 flex items-center gap-2 text-xs text-gray-500 font-medium uppercase tracking-wider">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                <span>Camera Enabled</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Text Input Area */}
@@ -478,6 +512,11 @@ export default function DeafMuteDashboard() {
               )}
             </div>
           )}
+        </div>
+
+        {/* Footer */}
+        <div className="mt-8 pt-6 border-t border-gray-200 dark:border-white/10 text-center text-xs text-gray-500 dark:text-gray-400">
+          <p>VOICELESS - A project by Tech Gen Innovations.</p>
         </div>
       </main>
 

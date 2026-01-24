@@ -30,7 +30,8 @@ export default function RoleSelection() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-950 dark:via-purple-950 dark:to-gray-900 px-4 py-8">
+    <div className="flex min-h-screen items-center justify-center transition-colors duration-300 bg-[url('/light-bg.png')] dark:bg-[url('/background-test.jpg')] bg-cover bg-center bg-no-repeat bg-fixed px-4 py-8 relative">
+      <div className="absolute inset-0 bg-white/30 dark:bg-black/20 pointer-events-none"></div>
       {/* Back Button - Top Left */}
       <button
         onClick={handleBack}
@@ -69,8 +70,8 @@ export default function RoleSelection() {
           <button
             onClick={() => handleRoleSelect("deaf-mute")}
             className={`group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 md:p-8 border-2 ${selectedRole === "deaf-mute"
-                ? "border-indigo-600 dark:border-indigo-400 scale-105"
-                : "border-transparent hover:border-indigo-300 dark:hover:border-indigo-700"
+              ? "border-indigo-600 dark:border-indigo-400 scale-105"
+              : "border-transparent hover:border-indigo-300 dark:hover:border-indigo-700"
               } focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-offset-2`}
             aria-label="Select Deaf or Mute User role"
           >
@@ -132,8 +133,8 @@ export default function RoleSelection() {
           <button
             onClick={() => handleRoleSelect("hearing")}
             className={`group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 md:p-8 border-2 ${selectedRole === "hearing"
-                ? "border-purple-600 dark:border-purple-400 scale-105"
-                : "border-transparent hover:border-purple-300 dark:hover:border-purple-700"
+              ? "border-purple-600 dark:border-purple-400 scale-105"
+              : "border-transparent hover:border-purple-300 dark:hover:border-purple-700"
               } focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-offset-2`}
             aria-label="Select Hearing User role"
           >
@@ -186,11 +187,65 @@ export default function RoleSelection() {
           </button>
         </div>
 
+        {/* Feature Quick Access */}
+        <div className="mt-8 mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            {/* Two-Way Chat Card */}
+            <div
+              onClick={() => router.push("/dashboard/conversation")}
+              className="group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 md:p-8 border-2 border-transparent hover:border-indigo-300 dark:hover:border-indigo-700 cursor-pointer"
+            >
+              <div className="flex flex-col items-center text-center space-y-3">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-8 h-8 md:w-10 md:h-10 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Two-Way Chat</h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">Text-based conversation</p>
+                </div>
+                <div className="pt-2 flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                  <span>Text Enabled</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Video Call Card */}
+            <div
+              onClick={() => router.push("/video-call")}
+              className="group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 md:p-8 border-2 border-transparent hover:border-pink-300 dark:hover:border-pink-700 cursor-pointer"
+            >
+              <div className="flex flex-col items-center text-center space-y-3">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-900/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-8 h-8 md:w-10 md:h-10 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Video Call</h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">Real-time Sign & Voice</p>
+                </div>
+                <div className="pt-2 flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                  <span>Camera Enabled</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Helper Text */}
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-500 dark:text-gray-400">
             Your selection will customize your experience
           </p>
+        </div>
+
+        {/* Footer */}
+        <div className="mt-8 pt-4 border-t border-gray-200 dark:border-white/10 text-center text-xs text-gray-500 dark:text-gray-400">
+          <p>VOICELESS - A project by Tech Gen Innovations.</p>
         </div>
       </main>
     </div>
