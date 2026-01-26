@@ -143,7 +143,7 @@ export default function DeafMuteDashboard() {
       <div className="absolute inset-0 bg-white/30 dark:bg-black/20 pointer-events-none"></div>
       {/* Header */}
       <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-md border-b border-indigo-200/50 dark:border-indigo-800/50 sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3">
+        <div className="w-full mx-auto px-4 sm:px-6 py-3">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
               {/* Back Button */}

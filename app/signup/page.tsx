@@ -43,7 +43,7 @@ export default function SignUp() {
     }
 
     // TODO: Implement actual signup logic
-    console.log("Signup attempt:", formData);
+
     setError("");
 
     // Navigate to role selection page after successful signup

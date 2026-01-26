@@ -23,7 +23,7 @@ export default function LoginPage() {
             setError("Please fill in all fields");
             return;
         }
-        console.log("Login attempt:", { email, password });
+
         setError("");
         router.push("/role-selection");
     };
