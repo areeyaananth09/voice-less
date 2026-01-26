@@ -23,11 +23,7 @@ export default function VideoCallPage() {
                 if (localVideoRef.current) {
                     localVideoRef.current.srcObject = stream;
                 }
-                // For demo, we might mirror local stream to remote if no peer connection
-                // BUT better to just leave remote black or placeholder for "User Signing" simulation
-                // if (remoteVideoRef.current) {
-                //     remoteVideoRef.current.srcObject = stream; 
-                // }
+
             } catch (err) {
                 console.error("Error accessing media devices:", err);
             }
