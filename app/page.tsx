@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { Navbar } from "@/components/navbar";
 
 export default function Home() {
     return (
@@ -10,33 +10,7 @@ export default function Home() {
             <div className="absolute inset-0 bg-white/30 dark:bg-black/30 pointer-events-none transition-colors duration-300"></div>
 
             {/* Navbar */}
-            <nav className="relative z-10 flex items-center justify-between px-6 py-6 max-w-7xl mx-auto">
-                <div className="flex items-center gap-3">
-                    {/* Logo Icon */}
-                    <div className="relative w-12 h-12 rounded-full overflow-hidden">
-                        <Image
-                            src="/logo-fixed.png"
-                            alt="Voiceless Logo"
-                            fill
-                            className="object-contain"
-                        />
-                    </div>
-                    <div className="flex flex-col">
-                        <span className="text-2xl font-bold tracking-tight">VOICELESS</span>
-                        <span className="text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-300">By Tech Gen Innovations</span>
-                    </div>
-                </div>
-
-                <div className="flex items-center gap-6">
-                    <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600 dark:text-gray-200">
-                        <Link href="/about" className="hover:text-black dark:hover:text-white transition-colors">About</Link>
-                        <Link href="#how-it-works" className="hover:text-black dark:hover:text-white transition-colors">How it works</Link>
-                        <Link href="/features" className="hover:text-black dark:hover:text-white transition-colors">Features</Link>
-                        <Link href="/blog" className="hover:text-black dark:hover:text-white transition-colors">Blog</Link>
-                    </div>
-                    <ThemeToggle />
-                </div>
-            </nav>
+            <Navbar />
 
             <main className="relative z-10 max-w-7xl mx-auto px-6 pt-10 pb-20">
 
