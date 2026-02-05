@@ -7,11 +7,26 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { User, LogOut, Languages } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useState, useEffect, useRef } from "react";
 
 export function Navbar() {
     const { data: session } = authClient.useSession();
     const router = useRouter();
     const { language, setLanguage, t } = useLanguage();
+    const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsLanguageDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     const handleLogout = async () => {
         await authClient.signOut();
@@ -19,7 +34,7 @@ export function Navbar() {
     };
 
     return (
-        <nav className="relative z-10 flex items-center justify-between px-6 py-6 max-w-7xl mx-auto">
+        <nav className="relative z-50 flex items-center justify-between px-6 py-6 max-w-7xl mx-auto">
             <div className="flex items-center gap-3">
                 <Link href="/" className="flex items-center gap-3">
                     <div className="relative w-12 h-12 rounded-full overflow-hidden">
@@ -46,36 +61,50 @@ export function Navbar() {
                 </div>
 
                 {/* Language Selector */}
-                <div className="relative group">
-                    <button className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white dark:bg-white/10 border border-gray-200 dark:border-white/20 hover:bg-gray-50 dark:hover:bg-white/15 transition-all">
+                <div className="relative" ref={dropdownRef}>
+                    <button
+                        onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+                        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white dark:bg-white/10 border border-gray-200 dark:border-white/20 hover:bg-gray-50 dark:hover:bg-white/15 transition-all"
+                    >
                         <Languages className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                         <span className="text-sm font-medium text-gray-700 dark:text-gray-200 uppercase">{language}</span>
                     </button>
-                    <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                        <div className="py-2">
-                            <button
-                                onClick={() => setLanguage("en")}
-                                className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${language === "en" ? "bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 font-medium" : "text-gray-700 dark:text-gray-200"
-                                    }`}
-                            >
-                                English
-                            </button>
-                            <button
-                                onClick={() => setLanguage("ta")}
-                                className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${language === "ta" ? "bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 font-medium" : "text-gray-700 dark:text-gray-200"
-                                    }`}
-                            >
-                                தமிழ் (Tamil)
-                            </button>
-                            <button
-                                onClick={() => setLanguage("hi")}
-                                className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${language === "hi" ? "bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 font-medium" : "text-gray-700 dark:text-gray-200"
-                                    }`}
-                            >
-                                हिंदी (Hindi)
-                            </button>
+                    {isLanguageDropdownOpen && (
+                        <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-[100]">
+                            <div className="py-2">
+                                <button
+                                    onClick={() => {
+                                        setLanguage("en");
+                                        setIsLanguageDropdownOpen(false);
+                                    }}
+                                    className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${language === "en" ? "bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 font-medium" : "text-gray-700 dark:text-gray-200"
+                                        }`}
+                                >
+                                    English
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setLanguage("ta");
+                                        setIsLanguageDropdownOpen(false);
+                                    }}
+                                    className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${language === "ta" ? "bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 font-medium" : "text-gray-700 dark:text-gray-200"
+                                        }`}
+                                >
+                                    தமிழ் (Tamil)
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setLanguage("hi");
+                                        setIsLanguageDropdownOpen(false);
+                                    }}
+                                    className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${language === "hi" ? "bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 font-medium" : "text-gray-700 dark:text-gray-200"
+                                        }`}
+                                >
+                                    हिंदी (Hindi)
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
 
                 <ThemeToggle />
@@ -105,13 +134,13 @@ export function Navbar() {
                             className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors"
                         >
                             <LogOut className="w-4 h-4" />
-                            <span>Logout</span>
+                            <span>{t("logout")}</span>
                         </button>
                     </div>
                 ) : (
                     <div className="hidden md:block pl-4 border-l border-gray-200 dark:border-gray-700">
                         <Link href="/login" className="text-sm font-medium text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors">
-                            Sign In
+                            {t("signIn")}
                         </Link>
                     </div>
                 )}
