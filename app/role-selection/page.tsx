@@ -65,38 +65,34 @@ export default function RoleSelection() {
 
       {/* Top Right User Controls */}
       <div className="absolute top-4 right-4 flex items-center gap-4 z-20">
-        {session && (
-          <>
-            {/* Profile Icon */}
-            <Link
-              href="/profile"
-              className="group relative w-12 h-12 rounded-full p-[2px] bg-gradient-to-br from-purple-500 to-pink-500 hover:shadow-lg hover:shadow-purple-500/40 transition-all duration-300"
-            >
-              <div className="w-full h-full rounded-full bg-white dark:bg-gray-900 overflow-hidden flex items-center justify-center">
-                {session?.user?.image ? (
-                  <Image
-                    src={session.user.image}
-                    alt="Profile"
-                    width={48}
-                    height={48}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <User className="w-6 h-6 text-gray-600 dark:text-gray-300" />
-                )}
-              </div>
-            </Link>
+        {/* Profile Icon */}
+        <Link
+          href="/profile"
+          className="group relative w-12 h-12 rounded-full p-[2px] bg-gradient-to-br from-purple-500 to-pink-500 hover:shadow-lg hover:shadow-purple-500/40 transition-all duration-300"
+        >
+          <div className="w-full h-full rounded-full bg-white dark:bg-gray-900 overflow-hidden flex items-center justify-center">
+            {session?.user?.image ? (
+              <Image
+                src={session.user.image}
+                alt="Profile"
+                width={48}
+                height={48}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <User className="w-6 h-6 text-gray-600 dark:text-gray-300" />
+            )}
+          </div>
+        </Link>
 
-            {/* Logout Button */}
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-white/10 rounded-full text-gray-800 dark:text-white hover:bg-red-500/10 hover:text-red-500 hover:border-red-500/50 transition-all duration-300 group font-medium"
-            >
-              <LogOut className="w-4 h-4" />
-              <span>Logout</span>
-            </button>
-          </>
-        )}
+        {/* Logout Button */}
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 px-4 py-2 bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-white/10 rounded-full text-gray-800 dark:text-white hover:bg-red-500/10 hover:text-red-500 hover:border-red-500/50 transition-all duration-300 group font-medium"
+        >
+          <LogOut className="w-4 h-4" />
+          <span>Logout</span>
+        </button>
       </div>
 
       <main className="w-full max-w-2xl">

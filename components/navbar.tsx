@@ -5,11 +5,13 @@ import Image from "next/image";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, Languages } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function Navbar() {
     const { data: session } = authClient.useSession();
     const router = useRouter();
+    const { language, setLanguage, t } = useLanguage();
 
     const handleLogout = async () => {
         await authClient.signOut();
@@ -37,10 +39,43 @@ export function Navbar() {
 
             <div className="flex items-center gap-6">
                 <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600 dark:text-gray-200">
-                    <Link href="/about" className="hover:text-black dark:hover:text-white transition-colors">About</Link>
-                    <Link href="/#how-it-works" className="hover:text-black dark:hover:text-white transition-colors">How it works</Link>
-                    <Link href="/features" className="hover:text-black dark:hover:text-white transition-colors">Features</Link>
-                    <Link href="/blog" className="hover:text-black dark:hover:text-white transition-colors">Blog</Link>
+                    <Link href="/about" className="hover:text-black dark:hover:text-white transition-colors">{t("about")}</Link>
+                    <Link href="/#how-it-works" className="hover:text-black dark:hover:text-white transition-colors">{t("howItWorks")}</Link>
+                    <Link href="/features" className="hover:text-black dark:hover:text-white transition-colors">{t("features")}</Link>
+                    <Link href="/blog" className="hover:text-black dark:hover:text-white transition-colors">{t("blog")}</Link>
+                </div>
+
+                {/* Language Selector */}
+                <div className="relative group">
+                    <button className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white dark:bg-white/10 border border-gray-200 dark:border-white/20 hover:bg-gray-50 dark:hover:bg-white/15 transition-all">
+                        <Languages className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-200 uppercase">{language}</span>
+                    </button>
+                    <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                        <div className="py-2">
+                            <button
+                                onClick={() => setLanguage("en")}
+                                className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${language === "en" ? "bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 font-medium" : "text-gray-700 dark:text-gray-200"
+                                    }`}
+                            >
+                                English
+                            </button>
+                            <button
+                                onClick={() => setLanguage("ta")}
+                                className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${language === "ta" ? "bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 font-medium" : "text-gray-700 dark:text-gray-200"
+                                    }`}
+                            >
+                                தமிழ் (Tamil)
+                            </button>
+                            <button
+                                onClick={() => setLanguage("hi")}
+                                className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${language === "hi" ? "bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 font-medium" : "text-gray-700 dark:text-gray-200"
+                                    }`}
+                            >
+                                हिंदी (Hindi)
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <ThemeToggle />
