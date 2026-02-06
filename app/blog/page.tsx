@@ -177,7 +177,7 @@ export default function BlogPage() {
 
                 {/* Footer */}
                 <div className="mt-20 pt-8 border-t border-gray-200 dark:border-white/10 text-center text-xs text-gray-500 dark:text-gray-400">
-                    <p>VOICELESS - A project by Tech Gen Innovations.</p>
+                    <p>VOICELESS – A project by Tech Gen Innovations.</p>
                 </div>
             </main>
         </div>

@@ -271,7 +271,7 @@ export default function HearingDashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-6 pb-24">
         {/* Communication Options Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto mb-8">
           {/* Text Chat Card */}
@@ -615,7 +615,7 @@ export default function HearingDashboard() {
 
         {/* Footer */}
         <div className="mt-8 pt-6 border-t border-gray-200 dark:border-white/10 text-center text-xs text-gray-500 dark:text-gray-400">
-          <p>VOICELESS - A project by Tech Gen Innovations.</p>
+          <p>VOICELESS – A project by Tech Gen Innovations.</p>
         </div>
       </main>
 
