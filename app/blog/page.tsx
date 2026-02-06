@@ -37,7 +37,7 @@ export default function BlogPage() {
                 </div>
             </nav>
 
-            <main className="relative z-10 max-w-7xl mx-auto px-6 py-10">
+            <main className="relative z-10 max-w-7xl mx-auto px-6 pt-10 pb-24">
                 {/* Back Button */}
                 <div className="mb-8">
                     <Link href="/" className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors group">
@@ -132,7 +132,7 @@ export default function BlogPage() {
                                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                                     Understanding impact of modern tools on inclusion.
                                 </p>
-                                <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 cursor-pointer hover:underline">Read Article →</span>
+                                <span className="text-xs font-semibold text-[#D946EF] dark:text-[#A855F7] cursor-pointer hover:underline">Read Article →</span>
                             </div>
 
                             {/* Card 2 */}
@@ -144,7 +144,7 @@ export default function BlogPage() {
                                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                                     Local Workshop Boosts Digital Inclusion.
                                 </p>
-                                <span className="text-xs font-semibold text-green-600 dark:text-green-400 cursor-pointer hover:underline">Read Article →</span>
+                                <span className="text-xs font-semibold text-[#D946EF] dark:text-[#A855F7] cursor-pointer hover:underline">Read Article →</span>
                             </div>
 
                             {/* Card 3 */}
@@ -156,7 +156,7 @@ export default function BlogPage() {
                                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                                     Breaking down language barriers faster than ever.
                                 </p>
-                                <span className="text-xs font-semibold text-purple-600 dark:text-purple-400 cursor-pointer hover:underline">Read Article →</span>
+                                <span className="text-xs font-semibold text-[#D946EF] dark:text-[#A855F7] cursor-pointer hover:underline">Read Article →</span>
                             </div>
 
                             {/* Card 4 */}
@@ -168,7 +168,7 @@ export default function BlogPage() {
                                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                                     Getting the most out of features like offline mode.
                                 </p>
-                                <span className="text-xs font-semibold text-pink-600 dark:text-pink-400 cursor-pointer hover:underline">Read Article →</span>
+                                <span className="text-xs font-semibold text-[#D946EF] dark:text-[#A855F7] cursor-pointer hover:underline">Read Article →</span>
                             </div>
 
                         </div>

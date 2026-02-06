@@ -112,7 +112,7 @@ export function Navbar() {
                 {session ? (
                     <div className="flex items-center gap-4 pl-4 border-l border-gray-200 dark:border-gray-700">
                         <Link href="/profile" className="relative group">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 p-[2px] shadow-lg shadow-purple-500/20 group-hover:shadow-purple-500/40 transition-all">
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 p-[2px] shadow-[0_0_15px_rgba(217,70,239,0.5)] group-hover:shadow-[0_0_25px_rgba(217,70,239,0.7)] transition-all duration-300">
                                 <div className="w-full h-full rounded-full bg-white dark:bg-gray-900 flex items-center justify-center overflow-hidden">
                                     {session.user?.image ? (
                                         <Image
@@ -131,9 +131,8 @@ export function Navbar() {
 
                         <button
                             onClick={handleLogout}
-                            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors"
+                            className="flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                         >
-                            <LogOut className="w-4 h-4" />
                             <span>{t("logout")}</span>
                         </button>
                     </div>

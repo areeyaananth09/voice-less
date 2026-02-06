@@ -214,7 +214,7 @@ export default function LiveTranscribe() {
                 <span className="hidden sm:inline">Back</span>
             </button>
 
-            <main className="relative z-10 max-w-5xl mx-auto pt-16">
+            <main className="relative z-10 max-w-5xl mx-auto pt-16 pb-24">
                 {/* Header */}
                 <div className="text-center mb-8">
                     <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3">
@@ -261,8 +261,8 @@ export default function LiveTranscribe() {
                                 onClick={isCameraActive ? stopCamera : startCamera}
                                 disabled={isLoading}
                                 className={`flex items-center gap-3 px-6 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg ${isCameraActive
-                                        ? "bg-red-500 hover:bg-red-600 text-white"
-                                        : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                                    ? "bg-red-500 hover:bg-red-600 text-white"
+                                    : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
                                     } disabled:opacity-50 disabled:cursor-not-allowed`}
                             >
                                 {isCameraActive ? (
@@ -301,8 +301,8 @@ export default function LiveTranscribe() {
                             <div
                                 key={gesture}
                                 className={`px-3 py-2 rounded-lg text-center text-sm font-medium transition-all ${detectedWord === gesture
-                                        ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg scale-105"
-                                        : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+                                    ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg scale-105"
+                                    : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
                                     }`}
                             >
                                 {gesture}
@@ -313,7 +313,7 @@ export default function LiveTranscribe() {
 
                 {/* Footer */}
                 <div className="mt-8 pt-4 border-t border-gray-200 dark:border-white/10 text-center text-xs text-gray-500 dark:text-gray-400">
-                    <p>VOICELESS - A project by Tech Gen Innovations.</p>
+                    <p>VOICELESS – A project by Tech Gen Innovations.</p>
                 </div>
             </main>
         </div>
