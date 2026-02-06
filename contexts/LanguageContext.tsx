@@ -38,7 +38,7 @@ const translations: Record<Language, Record<string, string>> = {
         empoweringDesc: "Engage equally across distances and platforms with seamless integration.",
 
         // Footer
-        footer: "VOICELESS - A project by Tech Gen Innovations.",
+        footer: "VOICELESS – A project by Tech Gen Innovations.",
 
         // Dashboard
         dashboard: "Dashboard",

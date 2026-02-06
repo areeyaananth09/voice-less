@@ -201,7 +201,7 @@ export default function DeafMuteDashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-6 pb-24">
         {/* Welcome Message */}
         <div className="text-center mb-6">
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1">
@@ -516,7 +516,7 @@ export default function DeafMuteDashboard() {
 
         {/* Footer */}
         <div className="mt-8 pt-6 border-t border-gray-200 dark:border-white/10 text-center text-xs text-gray-500 dark:text-gray-400">
-          <p>VOICELESS - A project by Tech Gen Innovations.</p>
+          <p>VOICELESS – A project by Tech Gen Innovations.</p>
         </div>
       </main>
 

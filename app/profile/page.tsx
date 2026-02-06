@@ -40,7 +40,7 @@ export default function ProfilePage() {
 
             <Navbar />
 
-            <main className="relative z-10 max-w-7xl mx-auto px-6 py-10">
+            <main className="relative z-10 max-w-7xl mx-auto px-6 pt-10 pb-24">
                 <h1 className="text-4xl font-bold mb-8 text-gray-900 dark:text-white drop-shadow-sm">Profile & Settings</h1>
 
                 <div className="grid md:grid-cols-4 gap-8">

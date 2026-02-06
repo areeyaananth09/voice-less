@@ -15,7 +15,7 @@ export default function About() {
             {/* Navbar - Consistent with Home */}
             <Navbar />
 
-            <main className="relative z-10 max-w-7xl mx-auto px-6 pt-6 pb-20">
+            <main className="relative z-10 max-w-7xl mx-auto px-6 pt-6 pb-24">
 
                 {/* Back Button */}
                 <div className="mb-8">
@@ -134,11 +134,11 @@ export default function About() {
                                     {/* Small Avatars/Names - Placeholder Text for Names as in image */}
                                     <div className="text-center">
                                         <div className="w-10 h-10 rounded-full bg-blue-300/20 mx-auto mb-1"></div>
-                                        <span className="text-[10px] block opacity-70 text-gray-800 dark:text-gray-300">Fame True Nocoe</span>
+                                        <span className="text-[10px] block opacity-70 text-gray-800 dark:text-gray-300">Project Manager</span>
                                     </div>
                                     <div className="text-center">
                                         <div className="w-10 h-10 rounded-full bg-purple-300/20 mx-auto mb-1"></div>
-                                        <span className="text-[10px] block opacity-70 text-gray-800 dark:text-gray-300">Des whil of Twaiver</span>
+                                        <span className="text-[10px] block opacity-70 text-gray-800 dark:text-gray-300">Lead Developer</span>
                                     </div>
                                 </div>
                             </div>

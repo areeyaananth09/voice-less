@@ -14,7 +14,7 @@ export default function Home() {
             {/* Navbar */}
             <Navbar />
 
-            <main className="relative z-0 max-w-7xl mx-auto px-6 pt-10 pb-20">
+            <main className="relative z-0 max-w-7xl mx-auto px-6 pt-10 pb-24">
 
                 {/* Hero Section */}
                 <div className="grid md:grid-cols-2 gap-12 items-center min-h-[60vh]">
