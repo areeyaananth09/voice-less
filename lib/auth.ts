@@ -1,5 +1,5 @@
 import { betterAuth } from "better-auth";
-import { Pool } from "pg";
+import { Pool } from "@neondatabase/serverless";
 import { emailOTP } from "better-auth/plugins";
 import nodemailer from "nodemailer";
 
