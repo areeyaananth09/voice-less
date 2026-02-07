@@ -17,7 +17,7 @@ export default function RoleSelection() {
     router.push("/");
   };
 
-  const handleRoleSelect = (role: "deaf-mute" | "hearing" | "video-relay") => {
+  const handleRoleSelect = (role: "deaf-mute" | "hearing") => {
     setSelectedRole(role);
 
     // Save role to localStorage
@@ -29,10 +29,8 @@ export default function RoleSelection() {
     setTimeout(() => {
       if (role === "deaf-mute") {
         router.push("/dashboard/deaf-mute");
-      } else if (role === "hearing") {
-        router.push("/dashboard/hearing");
       } else {
-        router.push("/dashboard/video-relay");
+        router.push("/dashboard/hearing");
       }
     }, 300); // Small delay for visual feedback
   };
@@ -108,7 +106,8 @@ export default function RoleSelection() {
         </div>
 
         {/* Role Selection Cards - Compact */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+        {/* Role Selection Cards - Compact */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto">
           {/* Deaf / Mute User Card */}
           <button
             onClick={() => handleRoleSelect("deaf-mute")}
@@ -225,49 +224,6 @@ export default function RoleSelection() {
                   />
                 </svg>
                 <span>Voice Enabled</span>
-              </div>
-            </div>
-          </button>
-
-          {/* Remote Video Relay Card */}
-          <button
-            onClick={() => handleRoleSelect("video-relay")}
-            className={`group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 md:p-8 border-2 ${selectedRole === "video-relay"
-              ? "border-pink-600 dark:border-pink-400 scale-105"
-              : "border-transparent hover:border-pink-300 dark:hover:border-pink-700"
-              } focus:outline-none focus:ring-4 focus:ring-pink-500 focus:ring-offset-2`}
-            aria-label="Select Remote Video Relay role"
-          >
-            {/* Icon */}
-            <div className="flex justify-center mb-4">
-              <div className="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-900/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <svg
-                  className="w-12 h-12 md:w-14 md:h-14 text-pink-600 dark:text-pink-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-              </div>
-            </div>
-
-            {/* Label */}
-            <h2 className="text-xl md:text-2xl font-bold text-center text-gray-900 dark:text-white mb-2">
-              Remote Video Relay
-            </h2>
-            <p className="text-center text-gray-600 dark:text-gray-400 text-sm">
-              Certified Interpreter Service
-            </p>
-
-            {/* Video Indicator */}
-            <div className="mt-4 flex justify-center">
-              <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
-                </svg>
-                <span>Camera Enabled</span>
               </div>
             </div>
           </button>
