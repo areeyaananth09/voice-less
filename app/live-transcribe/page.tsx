@@ -23,6 +23,16 @@ export default function LiveTranscribe() {
     const handsRef = useRef<any>(null);
     const cameraRef = useRef<any>(null);
 
+    // Text-to-Sign State
+    const [message, setMessage] = useState("");
+    const [isConverting, setIsConverting] = useState(false);
+    const [showSignLanguage, setShowSignLanguage] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [currentWord, setCurrentWord] = useState("");
+    const [wordIndex, setWordIndex] = useState(0);
+    const [wordList, setWordList] = useState<string[]>([]);
+    const [videoError, setVideoError] = useState(false);
+
     // Gesture detection function
     const detectGesture = (landmarks: any[]) => {
         const thumbOpen = landmarks[4].x < landmarks[3].x;
@@ -95,6 +105,19 @@ export default function LiveTranscribe() {
 
         loadScripts();
     }, []);
+
+    // Text-to-Sign Effects
+    useEffect(() => {
+        if (isPlaying && showSignLanguage && wordList.length > 0) {
+            if (wordIndex < wordList.length) {
+                setVideoError(false);
+                setCurrentWord(wordList[wordIndex]);
+            } else {
+                setIsPlaying(false);
+                setWordIndex(0);
+            }
+        }
+    }, [wordIndex, isPlaying, showSignLanguage, wordList]);
 
     const startCamera = async () => {
         if (!videoRef.current || !canvasRef.current || !window.Hands || !window.Camera) return;
@@ -200,6 +223,89 @@ export default function LiveTranscribe() {
         setDetectedWord("None");
     };
 
+    // Text-to-Sign Handlers
+    const handleConvertToSign = async () => {
+        if (!message.trim()) {
+            alert("Please type a message first");
+            return;
+        }
+
+        setIsConverting(true);
+
+        // 1. Normalization: Lowercase and remove punctuation
+        const normalized = message.toLowerCase().replace(/[^\w\s]/g, "");
+
+        try {
+            // 2. Check for full phrase
+            const response = await fetch(`/api/gestures/search?phrase=${encodeURIComponent(normalized)}`);
+            const data = await response.json();
+
+            if (data.found && data.word) {
+                // If full phrase found, play that single video
+                setWordList([data.word]);
+            } else {
+                // 3. Fallback: Tokenization (Split into words)
+                const tokens = normalized.split(/\s+/).filter(w => w.length > 0);
+                setWordList(tokens);
+            }
+        } catch (error) {
+            console.error("Error checking phrase:", error);
+            // Fallback on error
+            const tokens = normalized.split(/\s+/).filter(w => w.length > 0);
+            setWordList(tokens);
+        }
+
+        // Simulate conversion delay
+        setTimeout(() => {
+            setIsConverting(false);
+            setShowSignLanguage(true);
+            setIsPlaying(true);
+            setWordIndex(0);
+            // Scroll to video player
+            document.getElementById("sign-display")?.scrollIntoView({ behavior: "smooth" });
+        }, 800);
+    };
+
+    const handleVideoEnded = () => {
+        setWordIndex((prev) => prev + 1);
+    };
+
+    const handleVideoError = () => {
+        console.warn(`Video not found for word: ${currentWord}`);
+        setVideoError(true);
+        // Fallback delay
+        setTimeout(() => {
+            if (isPlaying) {
+                setWordIndex((prev) => prev + 1);
+            }
+        }, 1500);
+    };
+
+    const handlePlayPause = () => {
+        if (isPlaying) {
+            setIsPlaying(false);
+        } else {
+            if (wordIndex >= wordList.length) {
+                setWordIndex(0);
+            }
+            setIsPlaying(true);
+        }
+    };
+
+    const handleReplay = () => {
+        setWordIndex(0);
+        setIsPlaying(true);
+    };
+
+    const handleClearText = () => {
+        setMessage("");
+        setShowSignLanguage(false);
+        setIsPlaying(false);
+        setWordIndex(0);
+        setCurrentWord("");
+        setWordList([]);
+    };
+
     return (
         <div className="min-h-screen transition-colors duration-300 bg-[url('/light-bg.png')] dark:bg-[url('/background-test.jpg')] bg-cover bg-center bg-no-repeat bg-fixed px-4 py-8 relative">
             <div className="absolute inset-0 bg-white/30 dark:bg-black/20 pointer-events-none"></div>
@@ -287,6 +393,118 @@ export default function LiveTranscribe() {
                             </div>
                         </div>
                     </div>
+                </div>
+
+                {/* Text-to-Sign Section */}
+                <div className="mt-8">
+                    <div className="text-center mb-6">
+                        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                            Type to Sign
+                        </h2>
+                        <p className="text-gray-600 dark:text-gray-300">
+                            Translate your text into sign language videos
+                        </p>
+                    </div>
+
+                    {/* Text Input Area */}
+                    <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-lg p-5 border border-purple-200 dark:border-purple-800 mb-6 max-w-4xl mx-auto">
+                        <div className="flex items-center justify-between mb-3">
+                            <label htmlFor="message-input" className="flex items-center gap-2 text-base font-semibold text-gray-900 dark:text-white">
+                                <svg className="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                                Your Message
+                            </label>
+                            {message && (
+                                <button
+                                    onClick={handleClearText}
+                                    className="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 text-xs font-medium rounded-lg transition-all duration-200 flex items-center gap-1.5"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                    Clear
+                                </button>
+                            )}
+                        </div>
+
+                        <textarea
+                            id="message-input"
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            placeholder="Type here to convert to sign language..."
+                            className="w-full px-4 py-3 text-lg border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none resize-none min-h-[100px]"
+                            rows={3}
+                        />
+
+                        <button
+                            onClick={handleConvertToSign}
+                            disabled={!message.trim() || isConverting}
+                            className="w-full mt-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-xl shadow-lg p-3 flex items-center justify-center gap-2 font-bold transition-all"
+                        >
+                            {isConverting ? "Converting..." : "Convert to Sign Language"}
+                        </button>
+                    </div>
+
+                    {/* Sign Language Video Display */}
+                    {showSignLanguage && (
+                        <div id="sign-display" className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-xl p-5 border border-purple-200 dark:border-purple-800 mb-8 max-w-4xl mx-auto animate-fadeIn">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                                    <svg className="w-5 h-5 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                    Sign Playback
+                                </h3>
+                                <div className="flex gap-2">
+                                    <button onClick={handleReplay} className="px-3 py-1.5 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 text-xs font-medium rounded-lg">Replay</button>
+                                    <button onClick={handlePlayPause} className="px-3 py-1.5 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-400 text-xs font-medium rounded-lg">
+                                        {isPlaying ? "Pause" : "Play"}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="bg-black/5 dark:bg-black/20 rounded-lg p-4 min-h-[300px] flex flex-col items-center justify-center relative">
+                                {isPlaying && currentWord ? (
+                                    <div className="w-full h-full flex flex-col items-center justify-center">
+                                        {!videoError ? (
+                                            <div className="relative w-full max-w-md aspect-video bg-black rounded-lg overflow-hidden shadow-2xl mb-4">
+                                                <video
+                                                    key={currentWord}
+                                                    src={`/gestures/${currentWord}.mp4`}
+                                                    autoPlay
+                                                    playsInline
+                                                    onEnded={handleVideoEnded}
+                                                    onError={handleVideoError}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                                <div className="absolute bottom-2 left-0 right-0 text-center pointer-events-none">
+                                                    <span className="bg-black/50 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm capitalize">
+                                                        {currentWord}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="text-center animate-pulse mb-6">
+                                                <div className="w-24 h-24 mx-auto bg-purple-100 dark:bg-purple-900/50 rounded-full flex items-center justify-center mb-4">
+                                                    <svg className="w-12 h-12 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                                    </svg>
+                                                </div>
+                                                <p className="text-red-500 font-medium bg-red-100 dark:bg-red-900/30 px-3 py-1 rounded-full inline-block">
+                                                    Video not found
+                                                </p>
+                                            </div>
+                                        )}
+                                        <p className="text-3xl font-bold text-gray-900 dark:text-white capitalize mb-1">{currentWord}</p>
+                                        <p className="text-sm text-gray-500">Word {wordIndex + 1} of {wordList.length}</p>
+                                    </div>
+                                ) : (
+                                    <div className="text-center">
+                                        <p className="text-gray-500">Animation complete or paused.</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 {/* Gesture Guide */}

@@ -20,6 +20,8 @@ export default function DeafMuteDashboard() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentWord, setCurrentWord] = useState("");
   const [wordIndex, setWordIndex] = useState(0);
+  const [wordList, setWordList] = useState<string[]>([]);
+  const [videoError, setVideoError] = useState(false);
 
   useEffect(() => {
     // Check if user has selected a role
@@ -39,21 +41,17 @@ export default function DeafMuteDashboard() {
   }, [router]);
 
   useEffect(() => {
-    // Simulate sign language animation
-    if (isPlaying && showSignLanguage && message) {
-      const words = message.split(" ").filter(word => word.trim());
-      if (wordIndex < words.length) {
-        setCurrentWord(words[wordIndex]);
-        const timer = setTimeout(() => {
-          setWordIndex(wordIndex + 1);
-        }, 1500); // 1.5 seconds per word
-        return () => clearTimeout(timer);
+    // Playback logic
+    if (isPlaying && showSignLanguage && wordList.length > 0) {
+      if (wordIndex < wordList.length) {
+        setVideoError(false);
+        setCurrentWord(wordList[wordIndex]);
       } else {
         setIsPlaying(false);
         setWordIndex(0);
       }
     }
-  }, [isPlaying, wordIndex, message, showSignLanguage]);
+  }, [wordIndex, isPlaying, showSignLanguage, wordList]);
 
   const handleLogout = () => {
     if (typeof window !== "undefined") {
@@ -62,13 +60,37 @@ export default function DeafMuteDashboard() {
     router.push("/");
   };
 
-  const handleConvertToSign = () => {
+  const handleConvertToSign = async () => {
     if (!message.trim()) {
       alert("Please type a message first");
       return;
     }
 
     setIsConverting(true);
+
+    // 1. Normalization: Lowercase and remove punctuation
+    const normalized = message.toLowerCase().replace(/[^\w\s]/g, "");
+
+    try {
+      // 2. Check for full phrase
+      const response = await fetch(`/api/gestures/search?phrase=${encodeURIComponent(normalized)}`);
+      const data = await response.json();
+
+      if (data.found && data.word) {
+        // If full phrase found, play that single video
+        setWordList([data.word]);
+      } else {
+        // 3. Fallback: Tokenization (Split into words)
+        const tokens = normalized.split(/\s+/).filter(w => w.length > 0);
+        setWordList(tokens);
+      }
+    } catch (error) {
+      console.error("Error checking phrase:", error);
+      // Fallback on error
+      const tokens = normalized.split(/\s+/).filter(w => w.length > 0);
+      setWordList(tokens);
+    }
+
     // Simulate conversion delay
     setTimeout(() => {
       setIsConverting(false);
@@ -78,11 +100,26 @@ export default function DeafMuteDashboard() {
     }, 800);
   };
 
+  const handleVideoEnded = () => {
+    setWordIndex((prev) => prev + 1);
+  };
+
+  const handleVideoError = () => {
+    console.warn(`Video not found for word: ${currentWord}`);
+    setVideoError(true);
+    // Fallback delay to show the word if video is missing
+    setTimeout(() => {
+      if (isPlaying) {
+        setWordIndex((prev) => prev + 1);
+      }
+    }, 1500);
+  };
+
   const handlePlayPause = () => {
     if (isPlaying) {
       setIsPlaying(false);
     } else {
-      if (wordIndex >= message.split(" ").filter(word => word.trim()).length) {
+      if (wordIndex >= wordList.length) {
         setWordIndex(0);
       }
       setIsPlaying(true);
@@ -100,6 +137,7 @@ export default function DeafMuteDashboard() {
     setIsPlaying(false);
     setWordIndex(0);
     setCurrentWord("");
+    setWordList([]);
   };
 
   const handleSaveMessage = () => {
@@ -382,27 +420,55 @@ export default function DeafMuteDashboard() {
             </div>
 
             {/* Sign Language Animation Display */}
-            <div className="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-lg p-8 min-h-[280px] flex flex-col items-center justify-center border border-purple-100 dark:border-purple-900">
+            <div className="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-lg p-8 min-h-[400px] flex flex-col items-center justify-center border border-purple-100 dark:border-purple-900 overflow-hidden relative">
               {isPlaying && currentWord ? (
-                <div className="text-center animate-pulse">
-                  {/* Animated Hand Icon */}
-                  <div className="mb-6 relative">
-                    <div className="w-32 h-32 mx-auto bg-gradient-to-br from-purple-400 to-indigo-500 rounded-full flex items-center justify-center shadow-2xl animate-bounce">
-                      <svg className="w-20 h-20 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11" />
-                      </svg>
+                <div className="w-full h-full flex flex-col items-center justify-center">
+                  {!videoError ? (
+                    <div className="relative w-full max-w-lg aspect-video bg-black rounded-lg overflow-hidden shadow-2xl mb-4">
+                      {/* Video Player */}
+                      <video
+                        key={currentWord} // Key ensures video reloads on word change
+                        src={`/gestures/${currentWord}.mp4`}
+                        autoPlay
+                        playsInline
+                        onEnded={handleVideoEnded}
+                        onError={handleVideoError}
+                        className="w-full h-full object-cover"
+                      >
+                        Your browser does not support the video tag.
+                      </video>
+                      {/* Overlay Text */}
+                      <div className="absolute bottom-2 left-0 right-0 text-center pointer-events-none">
+                        <span className="bg-black/50 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm">
+                          {currentWord}
+                        </span>
+                      </div>
                     </div>
-                    {/* Ripple Effect */}
-                    <div className="absolute inset-0 w-32 h-32 mx-auto bg-purple-400 rounded-full animate-ping opacity-20"></div>
-                  </div>
+                  ) : (
+                    <div className="text-center animate-pulse mb-6">
+                      {/* Animated Hand Icon Fallback */}
+                      <div className="mb-6 relative">
+                        <div className="w-32 h-32 mx-auto bg-gradient-to-br from-purple-400 to-indigo-500 rounded-full flex items-center justify-center shadow-2xl animate-bounce">
+                          <svg className="w-20 h-20 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11" />
+                          </svg>
+                        </div>
+                        {/* Ripple Effect */}
+                        <div className="absolute inset-0 w-32 h-32 mx-auto bg-purple-400 rounded-full animate-ping opacity-20"></div>
+                      </div>
+                      <p className="text-sm text-red-500 font-medium bg-red-100 dark:bg-red-900/30 px-3 py-1 rounded-full inline-block">
+                        Video not found
+                      </p>
+                    </div>
+                  )}
 
                   {/* Current Word Display */}
-                  <div className="mb-4">
-                    <p className="text-4xl md:text-5xl font-bold text-purple-700 dark:text-purple-300 mb-2">
+                  <div className="mb-4 text-center">
+                    <p className="text-4xl md:text-5xl font-bold text-purple-700 dark:text-purple-300 mb-2 capitalize">
                       {currentWord}
                     </p>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Word {wordIndex + 1} of {message.split(" ").filter(w => w.trim()).length}
+                      Word {wordIndex + 1} of {wordList.length}
                     </p>
                   </div>
 
@@ -411,7 +477,7 @@ export default function DeafMuteDashboard() {
                     <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                       <div
                         className="h-full bg-gradient-to-r from-purple-500 to-indigo-500 transition-all duration-300"
-                        style={{ width: `${((wordIndex + 1) / message.split(" ").filter(w => w.trim()).length) * 100}%` }}
+                        style={{ width: `${((wordIndex + 1) / wordList.length) * 100}%` }}
                       ></div>
                     </div>
                   </div>
@@ -425,7 +491,7 @@ export default function DeafMuteDashboard() {
                     </svg>
                   </div>
                   <p className="text-gray-600 dark:text-gray-300 text-base font-medium">
-                    {wordIndex >= message.split(" ").filter(w => w.trim()).length
+                    {wordIndex >= wordList.length && wordList.length > 0
                       ? "Animation complete! Click Replay to watch again."
                       : "Click Play to start the sign language animation"}
                   </p>
