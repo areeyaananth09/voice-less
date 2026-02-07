@@ -232,38 +232,82 @@ export default function LiveTranscribe() {
 
         setIsConverting(true);
 
-        // 1. Normalization: Lowercase and remove punctuation
-        const normalized = message.toLowerCase().replace(/[^\w\s]/g, "");
-
         try {
-            // 2. Check for full phrase
-            const response = await fetch(`/api/gestures/search?phrase=${encodeURIComponent(normalized)}`);
+            const response = await fetch('/api/translate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: message }),
+            });
+
             const data = await response.json();
 
-            if (data.found && data.word) {
-                // If full phrase found, play that single video
-                setWordList([data.word]);
-            } else {
-                // 3. Fallback: Tokenization (Split into words)
-                const tokens = normalized.split(/\s+/).filter(w => w.length > 0);
-                setWordList(tokens);
+            if (data.error) {
+                console.error("Translation Error:", data.error);
+                alert("Translation failed. Please try again.");
+                setIsConverting(false);
+                return;
             }
-        } catch (error) {
-            console.error("Error checking phrase:", error);
-            // Fallback on error
-            const tokens = normalized.split(/\s+/).filter(w => w.length > 0);
-            setWordList(tokens);
-        }
 
-        // Simulate conversion delay
-        setTimeout(() => {
-            setIsConverting(false);
-            setShowSignLanguage(true);
-            setIsPlaying(true);
-            setWordIndex(0);
-            // Scroll to video player
-            document.getElementById("sign-display")?.scrollIntoView({ behavior: "smooth" });
-        }, 800);
+            // Extract sequence of video paths
+            const words: string[] = [];
+
+            // Map the video sequence
+            // Note: If 'found' is false, you might want to spell it out or handle differently
+            // For now, we just skip "not found" ones or add to list to trigger fallback UI
+            // However, your video player expects "words" which map to "/gestures/word.mp4"
+            // The API returns { word: string, video: string | null, found: boolean }
+
+            // Wait, the existing video player logic uses `src={\`/gestures/${currentWord}.mp4\`}`
+            // This means `currentWord` must be the filename base.
+            // If the API returns a full path like "/gestures/hello.mp4", 
+            // we should probably adjust either the frontend logic or the API response.
+            // The API uses existing DB data: `video_path`='/gestures/hello.mp4'.
+            // The frontend uses: `src={\`/gestures/${currentWord}.mp4\`}` -> turns into `/gestures//gestures/hello.mp4.mp4` -> BROKEN.
+
+            // FIX: We need to adapt the frontend to use the FULL path returned by the API
+            // OR change the API to return just the word if it maps 1:1.
+            // Since the API returns specific video paths that might not match the word exactly (e.g. synonyms),
+            // it's better to use the path directly.
+
+            // Refactoring to store objects { word: string, videoSrc: string } in state would be better,
+            // but to minimize changes, let's see.
+            // Current state: `wordList` is `string[]`. `currentWord` is `string`.
+            // Video src is derived: `/gestures/${currentWord}.mp4`.
+
+            // Let's change `wordList` to store the WORD identifiers that match the filenames
+            // derived from the API response. 
+            // BUT wait, the API returns existing paths from DB which are like `/gestures/hello.mp4`.
+            // If I just extract 'hello' from that, it works with current frontend.
+
+            const sequence = data.sequence || [];
+            const newWordList = sequence.map((item: any) => {
+                if (item.found && item.video) {
+                    // Extract filename without extension and path
+                    // e.g. "/gestures/hello.mp4" -> "hello"
+                    const filename = item.video.split('/').pop().replace('.mp4', '');
+                    return filename;
+                } else {
+                    // For now, return the word itself to trigger fallback (or specific error UI)
+                    return item.word;
+                }
+            });
+
+            setWordList(newWordList);
+
+        } catch (error) {
+            console.error("Error converting message:", error);
+            alert("An error occurred. Please try again.");
+        } finally {
+            // Simulate conversion delay for UX
+            setTimeout(() => {
+                setIsConverting(false);
+                setShowSignLanguage(true);
+                setIsPlaying(true);
+                setWordIndex(0);
+                // Scroll to video player
+                document.getElementById("sign-display")?.scrollIntoView({ behavior: "smooth" });
+            }, 500);
+        }
     };
 
     const handleVideoEnded = () => {

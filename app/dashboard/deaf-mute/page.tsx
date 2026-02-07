@@ -68,36 +68,46 @@ export default function DeafMuteDashboard() {
 
     setIsConverting(true);
 
-    // 1. Normalization: Lowercase and remove punctuation
-    const normalized = message.toLowerCase().replace(/[^\w\s]/g, "");
-
     try {
-      // 2. Check for full phrase
-      const response = await fetch(`/api/gestures/search?phrase=${encodeURIComponent(normalized)}`);
+      const response = await fetch('/api/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: message }),
+      });
+
       const data = await response.json();
 
-      if (data.found && data.word) {
-        // If full phrase found, play that single video
-        setWordList([data.word]);
-      } else {
-        // 3. Fallback: Tokenization (Split into words)
-        const tokens = normalized.split(/\s+/).filter(w => w.length > 0);
-        setWordList(tokens);
+      if (data.error) {
+        console.error("Translation Error:", data.error);
+        alert("Translation failed. Please try again.");
+        setIsConverting(false);
+        return;
       }
-    } catch (error) {
-      console.error("Error checking phrase:", error);
-      // Fallback on error
-      const tokens = normalized.split(/\s+/).filter(w => w.length > 0);
-      setWordList(tokens);
-    }
 
-    // Simulate conversion delay
-    setTimeout(() => {
-      setIsConverting(false);
-      setShowSignLanguage(true);
-      setIsPlaying(true);
-      setWordIndex(0);
-    }, 800);
+      const sequence = data.sequence || [];
+      const newWordList = sequence.map((item: any) => {
+        if (item.found && item.video) {
+          // Extract filename without extension and path to match current frontend logic
+          const filename = item.video.split('/').pop().replace('.mp4', '');
+          return filename;
+        } else {
+          return item.word;
+        }
+      });
+
+      setWordList(newWordList);
+
+    } catch (error) {
+      console.error("Error converting message:", error);
+      alert("An error occurred during translation.");
+    } finally {
+      setTimeout(() => {
+        setIsConverting(false);
+        setShowSignLanguage(true);
+        setIsPlaying(true);
+        setWordIndex(0);
+      }, 800);
+    }
   };
 
   const handleVideoEnded = () => {
